@@ -1,11 +1,13 @@
 package com.wlangiewicz
 
 import java.io.File
-import org.bitcoinj.core.{DownloadListener, PeerGroup, BlockChain, Wallet}
+
+import org.bitcoinj.core.listeners.DownloadProgressTracker
+import org.bitcoinj.core.{BlockChain, PeerGroup}
 import org.bitcoinj.net.discovery.DnsDiscovery
 import org.bitcoinj.params.MainNetParams
 import org.bitcoinj.store.SPVBlockStore
-import org.bitcoinj.wallet.DeterministicSeed
+import org.bitcoinj.wallet.{DeterministicSeed, Wallet}
 
 /**
  * The following example shows you how to restore a HD wallet from a previously generated deterministic seed.
@@ -49,22 +51,23 @@ object RestoreFromSeedManual extends App {
     // Now we need to hook the wallet up to the blockchain and the peers. This registers event listeners that notify our wallet about new transactions.
     chain.addWallet(wallet)
     peers.addWallet(wallet)
-    val blockChainListener: DownloadListener = new DownloadListener {
+
+    val bListener: DownloadProgressTracker = new DownloadProgressTracker {
       override def doneDownload() {
-        Console.println("blockchain downloaded")
+        println("blockchain downloaded");
       }
     }
 
     // Now we re-download the blockchain. This replays the chain into the wallet. Once this is completed our wallet should know of all its transactions and print the correct balance.
-    peers.startAsync
-    peers.awaitRunning()
-    peers.startBlockChainDownload(blockChainListener)
-    blockChainListener.await()
+    peers.start()
+    peers.startBlockChainDownload(bListener)
+
+    bListener.await()
 
     // Print a debug message with the details about the wallet. The correct balance should now be displayed.
-    Console.println(wallet.toString)
+    println(wallet.toString())
+
     // shutting down again
-    peers.stopAsync
-    peers.awaitTerminated()
+    peers.stop()
   }
 }

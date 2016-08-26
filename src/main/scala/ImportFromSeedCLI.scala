@@ -4,7 +4,7 @@ import org.bitcoinj.core._
 import org.bitcoinj.net.discovery.DnsDiscovery
 import org.bitcoinj.params.MainNetParams
 import org.bitcoinj.store.MemoryBlockStore
-import org.bitcoinj.wallet.DeterministicSeed
+import org.bitcoinj.wallet.{DeterministicSeed, Wallet}
 
 /**
  * DumpWallet loads a serialized wallet and prints information about what it contains.

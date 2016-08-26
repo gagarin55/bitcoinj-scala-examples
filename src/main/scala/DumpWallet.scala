@@ -1,7 +1,8 @@
 package com.wlangiewicz
 
 import java.io.File
-import org.bitcoinj.core.Wallet
+
+import org.bitcoinj.wallet.Wallet
 
 /**
  * DumpWallet loads a serialized wallet and prints information about what it contains.

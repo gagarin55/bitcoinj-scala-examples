@@ -1,11 +1,12 @@
 package com.wlangiewicz
 import java.io.File
 
-import com.google.common.util.concurrent.{FutureCallback, ListenableFuture, Futures}
-import org.bitcoinj.core.Wallet.BalanceType
+import com.google.common.util.concurrent.{FutureCallback, Futures, ListenableFuture}
 import org.bitcoinj.core._
 import org.bitcoinj.kits.WalletAppKit
 import org.bitcoinj.params.TestNet3Params
+import org.bitcoinj.wallet.Wallet
+import org.bitcoinj.wallet.Wallet.BalanceType
 
 
 /**

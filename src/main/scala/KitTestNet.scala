@@ -1,10 +1,13 @@
 package com.wlangiewicz
 
 import java.io.File
+
 import org.bitcoinj.core._
 import org.bitcoinj.kits.WalletAppKit
 import org.bitcoinj.params.{MainNetParams, TestNet3Params}
 import org.bitcoinj.script.Script
+import org.bitcoinj.wallet.Wallet
+import org.bitcoinj.wallet.listeners.AbstractWalletEventListener
 
 /**
  * The following example shows how to use the by bitcoinj provided WalletAppKit.

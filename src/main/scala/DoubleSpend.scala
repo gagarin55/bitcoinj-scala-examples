@@ -1,12 +1,14 @@
 package com.wlangiewicz
 
 import java.io.File
+
 import org.bitcoinj.core._
 import org.bitcoinj.kits.WalletAppKit
 import org.bitcoinj.params.RegTestParams
-import org.bitcoinj.utils.{Threading, BriefLogFormatter}
-
-import org.bitcoinj.core.Coin._;
+import org.bitcoinj.utils.{BriefLogFormatter, Threading}
+import org.bitcoinj.core.Coin._
+import org.bitcoinj.core.listeners.AbstractPeerEventListener
+import org.bitcoinj.wallet.Wallet;
 
 /**
  * This is a little test app that waits for a coin on a local regtest node, then  generates two transactions that double
@@ -30,8 +32,8 @@ object DoubleSpend extends App {
 
     kit.wallet().getBalanceFuture(COIN, Wallet.BalanceType.AVAILABLE).get
 
-    val tx1 = kit.wallet().createSend(new Address(params, "muYPFNCv7KQEG2ZLM7Z3y96kJnNyXJ53wm"), CENT)
-    val tx2 = kit.wallet().createSend(new Address(params, "muYPFNCv7KQEG2ZLM7Z3y96kJnNyXJ53wm"), CENT.add(SATOSHI.multiply(10)))
+    val tx1 = kit.wallet().createSend(Address.fromBase58(params, "muYPFNCv7KQEG2ZLM7Z3y96kJnNyXJ53wm"), CENT)
+    val tx2 = kit.wallet().createSend(Address.fromBase58(params, "muYPFNCv7KQEG2ZLM7Z3y96kJnNyXJ53wm"), CENT.add(SATOSHI.multiply(10)))
 
     val peer: Peer = kit.peerGroup().getConnectedPeers().get(0)
 

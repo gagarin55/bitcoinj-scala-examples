@@ -8,7 +8,7 @@ import org.bitcoinj.core._
 import org.bitcoinj.net.discovery.DnsDiscovery
 import org.bitcoinj.params.{MainNetParams, TestNet3Params}
 import org.bitcoinj.store.MemoryBlockStore
-import org.bitcoinj.wallet.DeterministicSeed
+import org.bitcoinj.wallet.{DeterministicSeed, Wallet}
 
 /**
  * This example shows how to solve the challenge Hal posted here:<p>

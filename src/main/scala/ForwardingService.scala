@@ -1,17 +1,15 @@
 package com.wlangiewicz
 
-import com.google.common.base.Preconditions._
-import org.bitcoinj.core._;
-import org.bitcoinj.crypto.KeyCrypterException;
-import org.bitcoinj.kits.WalletAppKit;
-import org.bitcoinj.params.MainNetParams;
-import org.bitcoinj.params.RegTestParams;
-import org.bitcoinj.params.TestNet3Params;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.MoreExecutors;
+import java.io.File
 
-import java.io.File;
+import com.google.common.base.Preconditions._
+import com.google.common.util.concurrent.{FutureCallback, Futures, MoreExecutors}
+import org.bitcoinj.core._
+import org.bitcoinj.crypto.KeyCrypterException
+import org.bitcoinj.kits.WalletAppKit
+import org.bitcoinj.params.{MainNetParams, RegTestParams, TestNet3Params}
+import org.bitcoinj.wallet.Wallet
+import org.bitcoinj.wallet.listeners.AbstractWalletEventListener;
 
 /**
  * ForwardingService demonstrates basic usage of the library. It sits on the network and when it receives coins, simply
@@ -31,14 +29,24 @@ class Service(params: NetworkParameters, forwardingAddress: Address, filePrefix:
         val value: Coin = tx.getValueSentToMe(w)
         Console.println("Received tx for " + value.toFriendlyString + ": " + tx)
         Console.println("Transaction will be forwarded after it confirms.")
-        Futures.addCallback(tx.getConfidence.getDepthFuture(1), new FutureCallback[Transaction] {
-          def onSuccess(result: Transaction) {
-            forwardCoins(result)
+
+        // Wait until it's made it into the block chain (may run immediately if it's already there).
+        //
+        // For this dummy app of course, we could just forward the unconfirmed transaction. If it were
+        // to be double spent, no harm done. Wallet.allowSpendingUnconfirmedTransactions() would have to
+        // be called in onSetupCompleted() above. But we don't do that here to demonstrate the more common
+        // case of waiting for a block.
+        Futures.addCallback(tx.getConfidence().getDepthFuture(1), new FutureCallback[TransactionConfidence] {
+          def onSuccess(result: TransactionConfidence) {
+            forwardCoins(tx)
           }
+
           def onFailure(t: Throwable) {
+            // This kind of future can't fail, just rethrow in case something weird happens.
             throw new RuntimeException(t)
           }
         })
+
       }
     })
 

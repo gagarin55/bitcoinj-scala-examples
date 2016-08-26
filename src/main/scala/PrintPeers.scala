@@ -37,7 +37,7 @@ object PrintPeers extends App {
   private def printDNS() {
     val start = System.currentTimeMillis()
     val dns: DnsDiscovery = new DnsDiscovery(MainNetParams.get())
-    dnsPeers = dns.getPeers(10, TimeUnit.SECONDS)
+    dnsPeers = dns.getPeers(0, 10, TimeUnit.SECONDS)
     printPeers(dnsPeers)
     printElapsed(start)
   }
