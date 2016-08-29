@@ -49,6 +49,6 @@ object BackupToMnemonicSeed extends App {
     Console.println("creation time: " + seed.getCreationTimeSeconds)
 
     val words = seed.getMnemonicCode
-    Console.println("mnemonicCode: " + words )
+    Console.println("mnemonicCode: " + String.join(" ", words))
   }
 }

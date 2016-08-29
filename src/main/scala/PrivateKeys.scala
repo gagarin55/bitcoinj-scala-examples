@@ -1,14 +1,10 @@
 package com.wlangiewicz
 
-import java.io.File
-import java.math.BigInteger
-import java.net.InetAddress
-
 import org.bitcoinj.core._
 import org.bitcoinj.net.discovery.DnsDiscovery
-import org.bitcoinj.params.{MainNetParams, TestNet3Params}
+import org.bitcoinj.params.MainNetParams
 import org.bitcoinj.store.MemoryBlockStore
-import org.bitcoinj.wallet.{DeterministicSeed, Wallet}
+import org.bitcoinj.wallet.Wallet
 
 /**
  * This example shows how to solve the challenge Hal posted here:<p>
